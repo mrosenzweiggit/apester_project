@@ -16,6 +16,27 @@ def extract(source, file_type, skip_rows=0):
     elif file_type == 'json':
         df = pd.read_json(source)
     else:
-        print("[INFO] No se ha encontrado source")
+        print("[INFO] No data source founded")
 
     return df
+
+
+def merge_df(df_l, df_r, how, on):
+    """
+    This function merge 2 dataframes and keep the most accurate data
+    :param on:
+    :param df_l: left pandas dataframe
+    :param df_r: right pandas dataframe
+    :param how: type of merge (inner, left, right, outer, cross)
+    :return:
+    """
+    df_result = df_l.merge(df_r, how=how, on=on, suffixes=('_left', '_right'))
+
+    for index, value in enumerate(df_result['Revenue_right']):
+        if pd.isna(value):
+            df_result['Revenue_right'][index] = df_result['Revenue_left'][index]
+
+    df_result = df_result.drop(columns=['Revenue_left'])
+    df_result = df_result.rename(columns={'Revenue_right': 'Revenue'})
+
+    return df_result
