@@ -1,4 +1,3 @@
-# apester_project
 # Apester Home Assignment
 Hi :)
 In this home assignment you may choose between developing an ETL with Apache Spark, Pandas or Apache Beam.
