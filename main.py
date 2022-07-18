@@ -4,6 +4,7 @@ import etl
 
 
 def main():
+    df_rubicon = pd.DataFrame()
 
     # Extract the data from the files
     df_all_video_advertisers = etl.extract("./sources/all_video_advertisers.csv", "csv", 6)
@@ -31,4 +32,4 @@ def main():
 if __name__ == '__main__':
     print('Starting ETL')
     main()
-    print('finish ETL')
+    print('finished ETL')

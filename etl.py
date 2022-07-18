@@ -12,12 +12,13 @@ def extract(source, file_type, skip_rows=0):
     df = pd.DataFrame()
 
     if file_type == 'csv':
-        df = pd.read_csv(source, skiprows=skip_rows)
+        df = pd.read_csv(source, skiprows=skip_rows, infer_datetime_format=True)
     elif file_type == 'json':
         df = pd.read_json(source)
     else:
         print("[INFO] No data source founded")
 
+    # pd.to_datetime(df, format="%d-%m-%y")
     return df
 
 
@@ -31,7 +32,7 @@ def merge_df(df_l, df_r, how, on):
     :return:
     """
     df_result = df_l.merge(df_r, how=how, on=on, suffixes=('_left', '_right'))
-
+    pd.set_option('mode.chained_assignment', None)
     for index, value in enumerate(df_result['Revenue_right']):
         if pd.isna(value):
             df_result['Revenue_right'][index] = df_result['Revenue_left'][index]
